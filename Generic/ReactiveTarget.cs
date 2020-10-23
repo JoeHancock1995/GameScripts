@@ -1,15 +1,21 @@
 using UnityEngine;
 using System.Collections;
 
-public class ReactiveTarget : Monobehaviour {
-    public void ReactToHit() {
-        StartCoroutine(Die());
-    }
-    private IEnumerator Die() {
-        this.transform.Rotate(-75, 0, 0);
+public class ReactiveTarget : MonoBehaviour {
 
-        yield return new WaitForSeconds(1.5f);
+	public void ReactToHit() {
+		WanderingAI behavior = GetComponent<WanderingAI>();
+		if (behavior != null) {
+			behavior.SetAlive(false);
+		}
+		StartCoroutine(Die());
+	}
 
-        Destroy(this.gameObject);
-    }
+	private IEnumerator Die() {
+		this.transform.Rotate(-75, 0, 0);
+		
+		yield return new WaitForSeconds(1.5f);
+		
+		Destroy(this.gameObject);
+	}
 }
